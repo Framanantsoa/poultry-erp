@@ -72,7 +72,6 @@ Internal system for managing poultry farm operations, including flock management
 - Composer
 - MariaDB 10+
 - Node.js 22+
-- Symfony CLI
 
 ### Setup for Symfony
 ```bash
@@ -91,7 +90,7 @@ php bin/console doctrine:database:create
 php bin/console lexik:jwt:generate-keypair
 
 # Start server
-symfony server:start
+php -S localhost:8000 -t public/
 ```
 
 ### Setup for Vue.js
