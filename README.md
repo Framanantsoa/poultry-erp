@@ -62,7 +62,7 @@ Internal system for managing poultry farm operations, including flock management
 ## Tech Stack
 - **Frontend**: Vue.js 3
 - **API**: RESTful
-- **Backend**: Symfony 7.4
+- **Backend**: CodeIgniter 4
 - **Database**: MariaDB 10
 
 ## Installation
@@ -73,24 +73,18 @@ Internal system for managing poultry farm operations, including flock management
 - MariaDB 10+
 - Node.js 22+
 
-### Setup for Symfony
+### Setup for CodeIgniter
 ```bash
 cd backend/
 
 # Install dependencies
 composer install
 
-# Rename env to .env
+# Make copy of .env.example to .env
 # Update database credentials in .env
 
-# Create database
-php bin/console doctrine:database:create
-
-# Generate JWT keys
-php bin/console lexik:jwt:generate-keypair
-
 # Start server
-php -S localhost:8000 -t public/
+php spark serve --port=8000
 ```
 
 ### Setup for Vue.js
