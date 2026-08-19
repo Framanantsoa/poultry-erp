@@ -1,8 +1,0 @@
-.env
-.env.dev
-
-composer.lock
-.vscode
-
-var/
-vendor/
