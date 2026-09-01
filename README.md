@@ -7,8 +7,13 @@ A comprehensive ERP system for managing poultry farm operations, including flock
 
 ## Features
 
-### 📦 Module 1: Flock & Production Management
-#### 🐓 Batch Management
+### 🔐 Security
+- Role-based access control (Admin, Farm Manager, Worker)
+- User permissions management
+- Audit logs
+
+
+### 🐓 Batch Management
 - Create and manage poultry batches
 - Assign breeds to batches
 - Track batch status (active/completed)
@@ -16,7 +21,7 @@ A comprehensive ERP system for managing poultry farm operations, including flock
 
 #### ⚖️ Weekly Weight Tracking
 - Record average weight per batch each week
-- View weight growth charts
+- Track minimum and maximum weight
 
 #### 🩺 Health & Mortality Tracking
 - Record daily/weekly deaths
@@ -27,7 +32,7 @@ A comprehensive ERP system for managing poultry farm operations, including flock
 ### 📦 Module 2: Production & Inventory
 #### 🥚 Egg Production
 - Record daily egg production
-- Calculate production rates (Hen-Day, Hen-Housed)
+- Calculate production rates
 - View production history
 
 #### 🍽️ Feed Management
@@ -39,15 +44,13 @@ A comprehensive ERP system for managing poultry farm operations, including flock
 - Manage incubation batches
 - Track fertility rates
 - Record hatching rates
-- Monitor chick production
 
-### 📦 Module 3: Analytics & Business Intelligence
-#### 📈 Real-time Dashboard
-- Key metrics at a glance
-- Daily egg production
-- Mortality rates
-- Feed consumption
-- Revenue vs costs
+### 📊 Mortality Tracking
+- Record daily deaths
+
+### 🐓 Egg & Chicken sales
+- Record daily egg sales
+- Record daily chicken sales
 
 #### 📊 Reports
 - Production reports (daily/weekly/monthly)
@@ -81,85 +84,6 @@ A comprehensive ERP system for managing poultry farm operations, including flock
 ---
 
 ## Tech Stack
-- **Frontend**: Vue.js 3
-- **API**: RESTful
-- **Backend**: Symfony 7.4
+- **Frontend**: Vue.js
+- **Backend**: Laravel 12 + Inertia
 - **Database**: MariaDB 10
-- **Authentication**: JWT
-
----
-
-## Module structure
-```text
-poultry-erp/
-├── backend/
-│   └── src/
-│       ├── modules/
-│       │   ├── flock/           # Module 1: Flock & Production
-│       │   ├── production/      # Module 2: Production & Inventory
-│       │   ├── analytics/       # Module 3: Analytics & BI
-│       │   └── system/          # Module 4: System Admin
-│       ├── shared/              # Shared components
-│       └── app.py
-└── frontend/
-    └── src/
-        ├── modules/
-        │   ├── flock/
-        │   ├── production/
-        │   ├── analytics/
-        │   └── system/
-        └── shared/
-```
-
----
-
-## Installation
-
-### Prerequisites
-- Python 3.9+ with pip
-- MariaDB 10+
-- Node.js 22+
-
-### Setup for Backend (FastAPI)
-```bash
-cd backend/
-
-# Create and activate virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Rename .env.example to .env
-# Update database credentials in .env
-
-# Create database
-mysql -u root -p -e "CREATE DATABASE poultry_erp"
-
-# Run SQL scripts (script1, script2, script3)
-
-# Start server
-uvicorn app:app --reload --host 0.0.0.0 --port 8000
-```
----
-
-### Setup for Frontend (Vue.js)
-```bash
-cd frontend/
-
-# Install dependencies
-npm install
-
-# Rename env to .env
-
-# Start server
-npm run start
-```
-
----
-
-## API Documentation
-Once the server is running, access the interactive API documentation at:
-- Swagger UI: ```http://localhost:8000/docs```
-- ReDoc: ```http://localhost:8000/redoc```
