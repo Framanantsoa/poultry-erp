@@ -5,10 +5,11 @@ Internal system for managing poultry farm operations, including flock management
 
 ## Features
 
-### 🔐 Authentication & Authorization
-- Secure JWT-based login
+### 🔐 Security
 - Role-based access control (Admin, Farm Manager, Worker)
 - User permissions management
+- Audit logs
+
 
 ### 🐓 Batch Management
 - Create and manage poultry batches
@@ -19,11 +20,9 @@ Internal system for managing poultry farm operations, including flock management
 ### ⚖️ Weekly Weight Tracking
 - Record average weight per batch each week
 - Track minimum and maximum weight
-- View weight growth charts
 
 ### 🥚 Egg Production
 - Record daily egg production
-- Track egg quality (Extra, A, B, broken)
 - Calculate production rates
 - View production history
 
@@ -36,12 +35,13 @@ Internal system for managing poultry farm operations, including flock management
 - Manage incubation batches
 - Track fertility rates
 - Record hatching rates
-- Monitor chick production
 
 ### 📊 Mortality Tracking
-- Record daily/weekly deaths
-- Track mortality rates
-- View survival statistics
+- Record daily deaths
+
+### 🐓 Egg & Chicken sales
+- Record daily egg sales
+- Record daily chicken sales
 
 ### 📈 Analytics & Reports
 - Dashboard with key metrics
@@ -60,42 +60,6 @@ Internal system for managing poultry farm operations, including flock management
 ---
 
 ## Tech Stack
-- **Frontend**: Vue.js 3
-- **API**: RESTful
-- **Backend**: CodeIgniter 4
+- **Frontend**: Vue.js
+- **Backend**: Laravel 12 + Inertia
 - **Database**: MariaDB 10
-
-## Installation
-
-### Prerequisites
-- PHP 8.4+
-- Composer
-- MariaDB 10+
-- Node.js 22+
-
-### Setup for CodeIgniter
-```bash
-cd backend/
-
-# Install dependencies
-composer install
-
-# Make copy of .env.example to .env
-# Update database credentials in .env
-
-# Start server
-php spark serve --port=8000
-```
-
-### Setup for Vue.js
-```bash
-cd frontend/
-
-# Install dependencies
-npm install
-
-# Rename env to .env
-
-# Start server
-npm run start
-```
