@@ -9,8 +9,7 @@ class LoginRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
-    {
+    public function authorize(): bool {
         return true;
     }
 
@@ -19,10 +18,9 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
-            'employee_id' => ['required', 'string', 'exists:users,employee_id'],
+            'employee_id' => ['required', 'string'],
             'password' => ['required', 'string']
         ];
     }
@@ -32,11 +30,9 @@ class LoginRequest extends FormRequest
      *
      * @return array<string, string>
      */
-    public function messages(): array
-    {
+    public function messages(): array {
         return [
             'employee_id.required' => 'Employee ID is required',
-            'employee_id.exists' => 'Employee ID not found',
             'password.required' => 'Password is required',
         ];
     }

@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class LoginController extends Controller
+class AuthController extends Controller
 {
     public function __construct(
         protected AuthService $authService
@@ -22,8 +22,7 @@ class LoginController extends Controller
      *
      * @return Response|RedirectResponse
      */
-    public function create(): Response|RedirectResponse
-    {
+    public function create(): Response|RedirectResponse {
         // If user is already authenticated, redirect to dashboard
         if ($this->authService->isAuthenticated()) {
             return redirect()->route('dashboard');
@@ -41,8 +40,7 @@ class LoginController extends Controller
      * @param LoginRequest $request
      * @return RedirectResponse
      */
-    public function store(LoginRequest $request): RedirectResponse
-    {
+    public function store(LoginRequest $request): RedirectResponse {
         try {
             $validated = $request->validated();
 
@@ -69,14 +67,12 @@ class LoginController extends Controller
         } catch (\Exception $e) {
             Log::error('Login attempt failed', [
                 'employee_id' => $request->employee_id,
-                'error' => $e->getMessage(),
-                'ip' => $request->ip()
+                'error' => $e->getMessage()
             ]);
 
             return back()->withErrors([
-                'employee_id' => 'An error occurred during login. Please try again.',
-            ])->onlyInput('employee_id');
-        }
+                'login' => $e->getMessage()
+            ])->withInput();        }
     }
 
     /**
@@ -85,8 +81,7 @@ class LoginController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    public function destroy(Request $request): RedirectResponse
-    {
+    public function destroy(Request $request): RedirectResponse {
         try {
             $user = $this->authService->getCurrentUser();
             
