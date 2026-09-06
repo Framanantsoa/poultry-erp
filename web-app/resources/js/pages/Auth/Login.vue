@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 px-4 py-12 sm:px-6 lg:px-8">
     <div class="w-full max-w-md space-y-8">
-      <!-- Logo / Header -->
+      <!-- Header -->
       <div class="text-center">
         <div class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900">
           <LockClosedIcon class="h-6 w-6 text-blue-600 dark:text-blue-300" />
@@ -14,44 +14,41 @@
         </p>
       </div>
 
-      <!-- Status Messages -->
-      <div v-if="page.props.flash?.success" 
-        class="rounded-lg bg-green-50 dark:bg-green-900/20 p-3 border border-green-200 dark:border-green-800">
-        <p class="text-sm text-green-600 dark:text-green-400">
-          {{ page.props.flash.success }}
-        </p>
+    <!-- Global Error from FORM -->
+      <div v-if="form.errors.login" 
+        class="rounded-lg bg-red-50 dark:bg-red-900/20 p-4 border border-red-200 dark:border-red-800">
+        <div class="flex items-start">
+          <ExclamationTriangleIcon class="h-5 w-5 text-red-600 dark:text-red-400 mt-0.5 mr-3 flex-shrink-0" />
+          <p class="text-sm text-red-600 dark:text-red-400">
+            {{ form.errors.login }}
+          </p>
+        </div>
       </div>
 
-      <div v-if="page.props.flash?.error" 
-        class="rounded-lg bg-red-50 dark:bg-red-900/20 p-3 border border-red-200 dark:border-red-800">
-        <p class="text-sm text-red-600 dark:text-red-400">
-          {{ page.props.flash.error }}
-        </p>
-      </div>
-
-      <!-- Login Form -->
-      <form class="mt-8 space-y-6" @submit.prevent="submit">
+    <!-- Login Form -->
+      <form @submit.prevent="submit" class="mt-8 space-y-6">
         <div class="space-y-4">
-          <!-- Employee ID -->
-          <FloatingInput v-model="form.employee_id"
-            id="employee_id" label="Employee ID" type="text"
+          <FloatingInput 
+            v-model="form.employee_id"
+            id="employee_id" 
+            label="Employee ID" 
+            type="text"
             :error="form.errors.employee_id"
-            autocomplete="username"
             :required="true"
           />
 
-          <!-- Password -->
-          <FloatingInput v-model="form.password"
-            id="password" label="Password" type="password"
+          <FloatingInput 
+            v-model="form.password"
+            id="password" 
+            label="Password" 
+            type="password"
             :error="form.errors.password"
-            autocomplete="current-password"
             :required="true"
           />
         </div>
 
-        <!-- Submit Button -->
         <SubmitBtn type="submit" variant="primary"
-          :loading="form.processing" :disabled="false"
+          :loading="form.processing"
         >
           <template #icon>
             <ArrowRightEndOnRectangleIcon class="h-5 w-5" />
@@ -60,7 +57,7 @@
         </SubmitBtn>
       </form>
 
-      <!-- Demo Credentials (remove in production) -->
+      <!-- Demo Credentials -->
       <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">Demo Credentials:</p>
         <code class="text-xs text-gray-700 dark:text-gray-300">
@@ -77,23 +74,13 @@
 </template>
 
 <script setup>
-import { useForm, usePage } from '@inertiajs/vue3'
-import { LockClosedIcon, ArrowRightEndOnRectangleIcon } from '@heroicons/vue/24/outline'
+import { useForm } from '@inertiajs/vue3'
+import { 
+  LockClosedIcon, ArrowRightEndOnRectangleIcon, 
+  ExclamationTriangleIcon, CheckCircleIcon 
+} from '@heroicons/vue/24/outline'
 import SubmitBtn from '@/components/ui/SubmitBtn.vue'
 import FloatingInput from '@/components/ui/FloatingInput.vue'
-
-const page = usePage()
-
-const props = defineProps({
-  canResetPassword: {
-    type: Boolean,
-    default: false
-  },
-  status: {
-    type: String,
-    default: null
-  }
-})
 
 const form = useForm({
   employee_id: '',
@@ -102,19 +89,17 @@ const form = useForm({
 
 const submit = () => {
   form.post('/login', {
-    onSuccess: () => {
-      // The redirect will happen automatically via Inertia
-      console.log('Login successful!')
-    },
-    onError: (errors) => {
-      // console.error('Login failed:', errors)
-    },
     preserveState: true,
-    preserveScroll: true
+    preserveScroll: true,
+    onSuccess: () => {
+      // Redirect will happen automatically
+    },
+    onError: (e) => {
+      // Errors are automatically added to form.errors
+    }
   })
 }
 
-// Demo credentials - remove in production
 const fillDemoCredentials = () => {
   form.employee_id = 'EMP001'
   form.password = 'password123'
