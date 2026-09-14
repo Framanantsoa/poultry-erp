@@ -2,56 +2,62 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
+use App\Models\Auth\User;
+use App\Services\SequenceService;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 /**
  * @extends Factory<User>
  */
 class UserFactory extends Factory
 {
-    /**
-     * The current password being used by the factory.
-     */
+    protected $model = User::class;
     protected static ?string $password;
 
+    protected ?SequenceService $seqService = null;
+
     /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
+     * Inject the sequence service (optional setter).
      */
+    public function withSequenceService(SequenceService $service): static
+    {
+        $this->seqService = $service;
+        return $this;
+    }
+
+    /**
+     * Lazily resolve the service if not injected.
+     */
+    protected function seqService(): SequenceService
+    {
+        return $this->seqService ??= app(SequenceService::class);
+    }
+
     public function definition(): array
     {
-        $firstName = fake()->firstName();
-        $lastName = fake()->lastName();
-        
         return [
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'employee_id' => 'EMP' . fake()->unique()->numberBetween(1000, 9999),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'employee_id' => $this->generateEmployeeId(),
             'email' => fake()->unique()->safeEmail(),
-            'phone' => $this->generatePhoneNumber(), // Use custom method
-            'birthday' => fake()->dateTimeBetween('-60 years', '-18 years')->format('Y-m-d'),
-            'password' => static::$password ??= Hash::make('password123'),
+            'phone' => $this->generatePhoneNumber(),
+            'birthday' => fake()->dateTimeBetween('-45 years', '-20 years')->format('Y-m-d'),
+            'password' => 'password123',
             'created_at' => now(),
             'updated_at' => now(),
         ];
     }
 
-    /**
-     * Generate a valid phone number (max 15 characters).
-     */
-    private function generatePhoneNumber(): string
+    protected function generateEmployeeId(): string
     {
-        // Generate a simple 10-digit number without formatting
-        return '0' . fake()->unique()->numberBetween(600000000, 799999999);
-        
-        // Or generate with country code (max 15 chars)
-        // return fake()->unique()->numerify('+261## ### ####'); // Madagascar format
-        // return fake()->unique()->numerify('+1##########'); // US format (10 digits)
-        // return fake()->unique()->numerify('+33#########'); // France format
+        $number = $this->seqService()->next('emp_ID');
+        return 'EMP' . str_pad((string) $number, 4, '0', STR_PAD_LEFT);
+    }
+
+    protected function generatePhoneNumber(): string
+    {
+        return '+261' . fake()->unique()->numberBetween(370000000, 379999999);
     }
 
     /**

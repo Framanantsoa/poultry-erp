@@ -13,5 +13,6 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [AuthController::class, 'getProfile'])->name('profile');
     Route::post('/logout', [AuthController::class, 'destroy'])->name('logout');
 });
