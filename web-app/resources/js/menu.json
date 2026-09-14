@@ -1,0 +1,193 @@
+[
+  {
+    "label": "Dashboard",
+    "icon": "HomeIcon",
+    "route": "/dashboard",
+    "permission": null,
+    "children": []
+  },
+  {
+    "label": "Batches",
+    "icon": "RectangleGroupIcon",
+    "route": null,
+    "permission": "batches.view",
+    "children": [
+      {
+        "label": "All Batches",
+        "icon": "RectangleStackIcon",
+        "route": "/batches",
+        "permission": "batches.view"
+      },
+      {
+        "label": "Breeds",
+        "icon": "TagIcon",
+        "route": "/breeds",
+        "permission": "breeds.view"
+      }
+    ]
+  },
+  {
+    "label": "Production",
+    "icon": "ChartBarIcon",
+    "route": null,
+    "permission": "production.view",
+    "children": [
+      {
+        "label": "Weekly Weights",
+        "icon": "ScaleIcon",
+        "route": "/weights",
+        "permission": "weights.view"
+      },
+      {
+        "label": "Egg Production",
+        "icon": "SparklesIcon",
+        "route": "/eggs/production",
+        "permission": "eggs.view"
+      },
+      {
+        "label": "Feed Consumption",
+        "icon": "BeakerIcon",
+        "route": "/feed",
+        "permission": "feed.view"
+      }
+    ]
+  },
+  {
+    "label": "Incubation",
+    "icon": "FireIcon",
+    "route": null,
+    "permission": "incubation.view",
+    "children": [
+      {
+        "label": "All Incubations",
+        "icon": "ListBulletIcon",
+        "route": "/incubations",
+        "permission": "incubation.view"
+      },
+      {
+        "label": "Fertility & Hatching",
+        "icon": "ChartPieIcon",
+        "route": "/incubations/rates",
+        "permission": "incubation.view"
+      }
+    ]
+  },
+  {
+    "label": "Health & Mortality",
+    "icon": "HeartIcon",
+    "route": "/mortality",
+    "permission": "mortality.view",
+    "children": []
+  },
+  {
+    "label": "Sales",
+    "icon": "ShoppingCartIcon",
+    "route": null,
+    "permission": "sales.view",
+    "children": [
+      {
+        "label": "Egg Sales",
+        "icon": "ShoppingBagIcon",
+        "route": "/sales/eggs",
+        "permission": "sales.view"
+      },
+      {
+        "label": "Chicken Sales",
+        "icon": "ShoppingBagIcon",
+        "route": "/sales/chickens",
+        "permission": "sales.view"
+      }
+    ]
+  },
+  {
+    "label": "Analytics",
+    "icon": "PresentationChartLineIcon",
+    "route": null,
+    "permission": "reports.view",
+    "children": [
+      {
+        "label": "Statistics",
+        "icon": "ChartPieIcon",
+        "route": "/analytics/statistics",
+        "permission": "reports.view"
+      },
+      {
+        "label": "Livestock Count",
+        "icon": "CalculatorIcon",
+        "route": "/analytics/livestock",
+        "permission": "reports.view"
+      },
+      {
+        "label": "Costs & Revenue",
+        "icon": "BanknotesIcon",
+        "route": "/analytics/financial",
+        "permission": "reports.financial"
+      }
+    ]
+  },
+  {
+    "label": "Predictions",
+    "icon": "SparklesIcon",
+    "route": null,
+    "permission": "predictions.view",
+    "children": [
+      {
+        "label": "Egg Production",
+        "icon": "ArrowTrendingUpIcon",
+        "route": "/predictions/eggs",
+        "permission": "predictions.view"
+      },
+      {
+        "label": "Feed Consumption",
+        "icon": "ArrowTrendingUpIcon",
+        "route": "/predictions/feed",
+        "permission": "predictions.view"
+      },
+      {
+        "label": "Batch Performance",
+        "icon": "ArrowTrendingUpIcon",
+        "route": "/predictions/batches",
+        "permission": "predictions.view"
+      }
+    ]
+  },
+  {
+    "label": "Security",
+    "icon": "ShieldCheckIcon",
+    "route": null,
+    "permission": "security.view",
+    "children": [
+      {
+        "label": "Users",
+        "icon": "UsersIcon",
+        "route": "/users",
+        "permission": "users.view"
+      },
+      {
+        "label": "Roles",
+        "icon": "ShieldCheckIcon",
+        "route": "/roles",
+        "permission": "roles.view"
+      },
+      {
+        "label": "Permissions",
+        "icon": "KeyIcon",
+        "route": "/permissions",
+        "permission": "roles.view"
+      },
+      {
+        "label": "Audit Logs",
+        "icon": "ClockIcon",
+        "route": "/logs",
+        "permission": "logs.view"
+      }
+    ]
+  },
+  {
+    "label": "Settings",
+    "icon": "Cog6ToothIcon",
+    "route": "/settings/general",
+    "permission": "settings.view",
+    "children": []
+  }
+]

@@ -110,4 +110,29 @@ class AuthController extends Controller
             ]);
         }
     }
+
+
+    public function getProfile(Request $request): Response {
+        $user = $request->user()->load('roles.permissions');
+
+        return Inertia::render('Auth/Profile', [
+            'profile' => [
+                'id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'full_name' => $user->full_name,
+                'employee_id' => $user->employee_id,
+                'email' => $user->email,
+                'phone' => $user->phone,
+                'birthday' => $user->birthday?->toDateString(),
+                'created_at' => $user->created_at?->toIso8601String(),
+                'roles' => $user->roles->pluck('name'),
+                'permissions' => $user->roles
+                    ->flatMap(fn ($role) => $role->permissions)
+                    ->pluck('name')
+                    ->unique()
+                    ->values(),
+            ],
+        ]);
+    }
 }

@@ -22,7 +22,7 @@
     
     <slot v-else name="icon" />
     
-    <span><slot>Submit</slot></span>
+    <span><slot></slot></span>
   </button>
 </template>
 

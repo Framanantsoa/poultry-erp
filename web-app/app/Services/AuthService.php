@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Models\User;
+use App\Models\Auth\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,13 +20,12 @@ class AuthService
      */
     public function login(string $employeeId, string $password): User {
     // Find user by employee_id
-        $user = User::where('employee_id', $employeeId)->first();
+        $user = User::with('roles.permissions')
+            ->where('employee_id', $employeeId)->first();
 
     // Check if user exists and password matches
         if (!$user || !Hash::check($password, $user->password)) {
-            throw new Exception(
-                "The provided credentials are incorrect."
-            );
+            throw new Exception("The provided credentials are incorrect.");
         }
 
     // Attempt to log in (this will set the session)
@@ -40,6 +39,17 @@ class AuthService
     // Regenerate session to prevent session fixation
         request()->session()->regenerate();
 
+    // Refresh user with roles + permissions for the current session
+        $user->load('roles.permissions');
+
+    // Log the login action
+        LogService::addAction(
+            actionName: 'LOGIN',
+            userId: $user->id,
+            lastValue: null,
+            newValue: null
+        );
+
         return $user;
     }
 
@@ -49,6 +59,18 @@ class AuthService
      * @return void
      */
     public function logout(): void {
+        $user = $this->getCurrentUser();
+
+    // Log the logout action
+        if ($user) {
+            LogService::addAction(
+                actionName: 'LOGOUT',
+                userId: $user->id,
+                lastValue: null,
+                newValue: null
+            );
+        }
+
         Auth::logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();

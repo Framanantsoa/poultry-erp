@@ -61,7 +61,7 @@
       <div class="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <p class="text-xs text-gray-600 dark:text-gray-400 mb-1">Demo Credentials:</p>
         <code class="text-xs text-gray-700 dark:text-gray-300">
-          Employee ID: EMP001<br>
+          Employee ID: EMP0001<br>
           Password: password123
         </code>
         <button type="button" @click="fillDemoCredentials" 
@@ -101,7 +101,7 @@ const submit = () => {
 }
 
 const fillDemoCredentials = () => {
-  form.employee_id = 'EMP001'
+  form.employee_id = 'EMP0001'
   form.password = 'password123'
 }
 </script>
