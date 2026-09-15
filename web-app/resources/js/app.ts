@@ -1,10 +1,25 @@
+import { createApp, h, DefineComponent } from 'vue' // Import DefineComponent
 import { createInertiaApp } from '@inertiajs/vue3'
+import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
-void createInertiaApp({
+createInertiaApp({
     title: (title) => (title ? `${title} - ${appName}` : appName),
+    
+    // Add the <DefineComponent> type to import.meta.glob
+    resolve: (name: string) =>
+        resolvePageComponent(
+            `./pages/${name}.vue`,
+            import.meta.glob<DefineComponent>('./pages/**/*.vue'),
+        ),
+        
+    setup({ el, App, props, plugin }) {
+        createApp({ render: () => h(App, props) })
+            .use(plugin)
+            .mount(el)
+    },
     progress: {
         color: '#4B5563',
     },
-});
+})

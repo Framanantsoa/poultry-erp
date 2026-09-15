@@ -38,7 +38,7 @@ class UserFactory extends Factory
     {
         return [
             'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
+            'last_name' => strtoupper(fake()->lastName()),
             'employee_id' => $this->generateEmployeeId(),
             'email' => fake()->unique()->safeEmail(),
             'phone' => $this->generatePhoneNumber(),

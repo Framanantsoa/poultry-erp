@@ -44,35 +44,33 @@ class AuthController extends Controller
         try {
             $validated = $request->validated();
 
-            // Attempt login
             $user = $this->authService->login(
                 $validated['employee_id'],
                 $validated['password']
             );
 
-            // Log successful login
             Log::info('User logged in successfully', [
                 'user_id' => $user->id,
                 'employee_id' => $user->employee_id,
                 'ip' => $request->ip(),
-                'user_agent' => $request->userAgent()
+                'user_agent' => $request->userAgent(),
             ]);
 
-            // Redirect to intended page or dashboard
             return redirect()->intended(route('dashboard'));
-
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            // Re-throw validation exceptions to be handled by Inertia
+        } 
+        catch (\Illuminate\Validation\ValidationException $e) {
             throw $e;
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             Log::error('Login attempt failed', [
                 'employee_id' => $request->employee_id,
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
             return back()->withErrors([
-                'login' => $e->getMessage()
-            ])->withInput();        }
+                'login' => $e->getMessage(),
+            ])->withInput();
+        }
     }
 
     /**
@@ -84,12 +82,8 @@ class AuthController extends Controller
     public function destroy(Request $request): RedirectResponse {
         try {
             $user = $this->authService->getCurrentUser();
-            
-            $this->authService->logout();
 
-            // Invalidate the session
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            $this->authService->logout();
 
             Log::info('User logged out', [
                 'user_id' => $user?->id,
@@ -97,42 +91,22 @@ class AuthController extends Controller
             ]);
 
             return redirect()->route('login')->with([
-                'status' => 'You have been logged out successfully.'
+                'status' => 'You have been logged out successfully.',
             ]);
-
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             Log::error('Logout failed', [
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
             ]);
 
             return redirect()->route('login')->with([
-                'error' => 'An error occurred during logout.'
+                'error' => 'An error occurred during logout.',
             ]);
         }
     }
 
 
-    public function getProfile(Request $request): Response {
-        $user = $request->user()->load('roles.permissions');
-
-        return Inertia::render('Auth/Profile', [
-            'profile' => [
-                'id' => $user->id,
-                'first_name' => $user->first_name,
-                'last_name' => $user->last_name,
-                'full_name' => $user->full_name,
-                'employee_id' => $user->employee_id,
-                'email' => $user->email,
-                'phone' => $user->phone,
-                'birthday' => $user->birthday?->toDateString(),
-                'created_at' => $user->created_at?->toIso8601String(),
-                'roles' => $user->roles->pluck('name'),
-                'permissions' => $user->roles
-                    ->flatMap(fn ($role) => $role->permissions)
-                    ->pluck('name')
-                    ->unique()
-                    ->values(),
-            ],
-        ]);
+    public function getProfile(): Response {
+        return Inertia::render('Auth/Profile');
     }
 }

@@ -168,14 +168,14 @@ import {
   PencilSquareIcon,
 } from '@heroicons/vue/24/outline'
 import AppLayout from '@/layouts/AppLayout.vue'
+import { usePage } from '@inertiajs/vue3'
 
-const props = defineProps({
-  profile: { type: Object, required: true },
-})
+const page = usePage()
+const profile = computed(() => page.props.auth.user)
 
 const initials = computed(() => {
-  const f = props.profile.first_name?.charAt(0) ?? ''
-  const l = props.profile.last_name?.charAt(0) ?? ''
+  const f = profile.value.first_name.charAt(0) ?? ''
+  const l = profile.value.last_name.charAt(0) ?? ''
   return `${f}${l}`.toUpperCase()
 })
 

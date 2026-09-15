@@ -30,4 +30,11 @@ class Permission extends Model
         return $this->belongsToMany(Role::class, 'role_permissions')
             ->withTimestamps();
     }
+
+    public function users()
+    {
+        return User::whereHas('roles', function ($q) {
+            $q->whereIn('roles.id', $this->roles()->pluck('roles.id'));
+        });
+    }
 }

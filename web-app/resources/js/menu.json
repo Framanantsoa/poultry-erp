@@ -40,7 +40,7 @@
       },
       {
         "label": "Egg Production",
-        "icon": "SparklesIcon",
+        "icon": "BoltIcon",
         "route": "/eggs/production",
         "permission": "eggs.view"
       },
@@ -55,22 +55,9 @@
   {
     "label": "Incubation",
     "icon": "FireIcon",
-    "route": null,
+    "route": "/incubations",
     "permission": "incubation.view",
-    "children": [
-      {
-        "label": "All Incubations",
-        "icon": "ListBulletIcon",
-        "route": "/incubations",
-        "permission": "incubation.view"
-      },
-      {
-        "label": "Fertility & Hatching",
-        "icon": "ChartPieIcon",
-        "route": "/incubations/rates",
-        "permission": "incubation.view"
-      }
-    ]
+    "children": []
   },
   {
     "label": "Health & Mortality",
