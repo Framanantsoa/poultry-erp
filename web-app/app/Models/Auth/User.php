@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
 
@@ -139,5 +140,42 @@ class User extends Authenticatable
             ->flatMap(fn ($role) => $role->permissions)
             ->pluck('name')->unique()->values()
             ->toArray();
+    }
+
+
+// ------------------------
+// CACHE
+// ------------------------
+/**
+ * Get all permissions for the user, cached for 1 hour.
+ */
+    public function getAllPermissionsCached(): array {
+        return Cache::remember(
+            "user:{$this->id}:permissions",
+            now()->addHour(),
+            fn () => $this->roles
+                ->flatMap(fn ($role) => $role->permissions)
+                ->pluck('name')
+                ->unique()->values()->all()
+        );
+    }
+
+/**
+ * Get all role names for the user, cached for 1 hour.
+ */
+    public function getAllRolesCached(): array {
+        return Cache::remember(
+            "user:{$this->id}:roles",
+            now()->addHour(),
+            fn () => $this->roles->pluck('name')->all()
+        );
+    }
+
+/**
+ * Clear this user's cached roles + permissions.
+ */
+    public function forgetAuthorizationCache(): void {
+        Cache::forget("user:{$this->id}:permissions");
+        Cache::forget("user:{$this->id}:roles");
     }
 }

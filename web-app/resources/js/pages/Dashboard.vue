@@ -104,28 +104,14 @@ import AppLayout from '@/layouts/AppLayout.vue'
 import StatCard from '@/components/template/StatCard.vue'
 
 const page = usePage()
-const user = computed(() => page.props.user)
+const user = computed(() => page.props.auth.user)
+const stats = computed(() => page.props.stats)
+const activities = computed(() => page.props.activities)
 
 const userInitials = computed(() => {
   if (!user.value) return '??'
   return `${user.value.first_name?.charAt(0) ?? ''}${user.value.last_name?.charAt(0) ?? ''}`
 })
-
-// Static data (later: from controller)
-const stats = {
-  batches: 12,
-  incubations: 3,
-  eggsToday: 1450,
-  mortalityToday: 4,
-}
-
-const activities = [
-  { id: 1, type: 'login',  message: 'You logged in from Antananarivo, MG', time: '2 minutes ago' },
-  { id: 2, type: 'create', message: 'New batch created: B-2026-012',       time: '1 hour ago' },
-  { id: 3, type: 'update', message: 'Egg production updated for B-2026-009', time: '3 hours ago' },
-  { id: 4, type: 'login',  message: 'You logged in from Antananarivo, MG', time: 'Yesterday at 9:30 AM' },
-  { id: 5, type: 'create',  message: 'New weight tracking created : W-2026-021', time: 'Yesterday at 8:30 AM' },
-]
 
 const getActivityIcon = (type) => ({
   login: UserIcon,
@@ -133,6 +119,4 @@ const getActivityIcon = (type) => ({
   update: Cog6ToothIcon,
   delete: ArrowRightEndOnRectangleIcon,
 }[type] ?? UserIcon)
-
-const goToProfile = () => router.visit('/profile')
 </script>

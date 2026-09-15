@@ -39,15 +39,16 @@ class AuthService
     // Regenerate session to prevent session fixation
         request()->session()->regenerate();
 
-    // Refresh user with roles + permissions for the current session
-        $user->load('roles.permissions');
+    // Warm the authorization cache immediately
+        $user->forgetAuthorizationCache();  // clear any old cache
+        $user->getAllRolesCached();          // populate roles
+        $user->getAllPermissionsCached();    // populate permissions
 
     // Log the login action
         LogService::addAction(
             actionName: 'LOGIN',
             userId: $user->id,
-            lastValue: null,
-            newValue: null
+            lastValue: null, newValue: null
         );
 
         return $user;

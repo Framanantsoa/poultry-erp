@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Auth\Permission;
+use App\Models\Auth\Role;
+use App\Observers\PermissionObserver;
+use App\Observers\RoleObserver;
 use App\Services\AuthService;
 use App\Services\SequenceService;
 use Carbon\CarbonImmutable;
@@ -28,6 +32,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Role::observe(RoleObserver::class);
+        Permission::observe(PermissionObserver::class);
+    
         $this->configureDefaults();
     }
 
