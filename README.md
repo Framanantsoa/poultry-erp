@@ -84,6 +84,6 @@ A comprehensive ERP system for managing poultry farm operations, including flock
 ---
 
 ## Tech Stack
-- **Frontend**: Vue.js
-- **Backend**: Laravel 12 + Inertia
+- **Frontend**: Vue.js 3
+- **Backend**: NestJS 12
 - **Database**: MariaDB 10
