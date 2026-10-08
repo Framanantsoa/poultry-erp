@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 
@@ -15,5 +16,3 @@ export const AppDataSource = new DataSource({
     charset: 'utf8mb4',
     timezone: 'Z',
 });
-
-export default AppDataSource;
